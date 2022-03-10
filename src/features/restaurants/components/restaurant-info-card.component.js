@@ -26,8 +26,8 @@ export const RestaurantInfoCard = ({ restaurant = {} }) => {
     rating = 4,
     isClosedTemporarily = true,
     placeId,
+    userRatingsTotal,
   } = restaurant;
-
   const ratingArray = Array.from(new Array(Math.floor(rating)));
   return (
     <RestaurantCard elevation={5}>
@@ -44,6 +44,7 @@ export const RestaurantInfoCard = ({ restaurant = {} }) => {
                 height={20}
               />
             ))}
+            <Text variant="caption">{userRatingsTotal}</Text>
           </Rating>
           <Icons>
             {isClosedTemporarily && (
