@@ -14,6 +14,7 @@ import {
 } from "@expo-google-fonts/oswald";
 import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
 import { RestaurantsContextProvider } from "./src/services/restaurants/restaurants.context";
+import { LocationsContextProvider } from "./src/services/locations/locations.context";
 
 const Tab = createBottomTabNavigator();
 
@@ -71,15 +72,20 @@ export default function App() {
     <>
       <ThemeProvider theme={theme}>
         <SafeArea>
-          <RestaurantsContextProvider>
-            <NavigationContainer>
-              <Tab.Navigator screenOptions={screenOptions}>
-                <Tab.Screen name="Restaurants" component={RestaurantsScreen} />
-                <Tab.Screen name="Map" component={MapScreen} />
-                <Tab.Screen name="Settings" component={SettingsScreen} />
-              </Tab.Navigator>
-            </NavigationContainer>
-          </RestaurantsContextProvider>
+          <LocationsContextProvider>
+            <RestaurantsContextProvider>
+              <NavigationContainer>
+                <Tab.Navigator screenOptions={screenOptions}>
+                  <Tab.Screen
+                    name="Restaurants"
+                    component={RestaurantsScreen}
+                  />
+                  <Tab.Screen name="Map" component={MapScreen} />
+                  <Tab.Screen name="Settings" component={SettingsScreen} />
+                </Tab.Navigator>
+              </NavigationContainer>
+            </RestaurantsContextProvider>
+          </LocationsContextProvider>
         </SafeArea>
       </ThemeProvider>
       <ExpoStatusBar style="auto" />
