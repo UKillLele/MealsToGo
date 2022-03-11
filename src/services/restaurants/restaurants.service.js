@@ -11,19 +11,16 @@ export const restaurantsRequest = (location) => {
 };
 
 export const restaurantsTransform = ({ results = [] }) => {
-  const mappedResults = results.map((restaurant) => {
-    const formattedRestaurant = camelize(restaurant);
-    formattedRestaurant.photos = formattedRestaurant.photos.map(() => {
+  const formattedRestaurants = camelize(results);
+  const mappedResults = formattedRestaurants.map((restaurant) => {
+    restaurant.photos = restaurant.photos.map(() => {
       return mockImages[Math.ceil(Math.random() * (mockImages.length - 1))];
     });
     return {
-      ...formattedRestaurant,
-      address: formattedRestaurant.vicinity,
-      isOpenNow:
-        formattedRestaurant.openingHours &&
-        formattedRestaurant.openingHours.openNow,
-      isClosedTemporarily:
-        formattedRestaurant.businessStatus === "CLOSED_TEMPORARILY",
+      ...restaurant,
+      address: restaurant.vicinity,
+      isOpenNow: restaurant.openingHours && restaurant.openingHours.openNow,
+      isClosedTemporarily: restaurant.businessStatus === "CLOSED_TEMPORARILY",
     };
   });
   return mappedResults;
