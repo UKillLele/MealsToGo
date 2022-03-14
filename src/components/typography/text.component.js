@@ -32,12 +32,20 @@ const label = (theme) => `
     font-weight: ${theme.fontWeights.medium};
 `;
 
+const title = (theme) => `
+    font-family: ${theme.fonts.body};
+    font-size: ${theme.fontSizes.body};
+    font-weight: ${theme.fontWeights.medium};
+    font-size: ${theme.fontSizes.title};
+`;
+
 const variants = {
   body,
   label,
   caption,
   error,
   hint,
+  title,
 };
 
 export const Text = styled.Text`
