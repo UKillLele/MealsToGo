@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { TouchableOpacity } from "react-native";
+import { FadeInView } from "../../../components/animations/fade.animation";
 import { RestaurantInfoCard } from "../components/restaurant-info-card.component";
 import { RestaurantsContext } from "../../../services/restaurants/restaurants.context";
 import { colors } from "../../../infrastructure/theme/colors";
@@ -34,7 +35,9 @@ export const RestaurantsScreen = ({ navigation }) => {
                   navigation.navigate("RestaurantDetails", { restaurant: item })
                 }
               >
-                <RestaurantInfoCard restaurant={item} />
+                <FadeInView>
+                  <RestaurantInfoCard restaurant={item} />
+                </FadeInView>
               </TouchableOpacity>
             );
           }}

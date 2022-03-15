@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { TouchableOpacity } from "react-native";
-import styled from "styled-components/native";
+import { FadeInView } from "../../../components/animations/fade.animation";
 import { Text } from "../../../components/typography/text.component";
 import { FavoritesContext } from "../../../services/favorites/favorites.context";
 import { RestaurantInfoCard } from "../../restaurants/components/restaurant-info-card.component";
@@ -26,7 +26,9 @@ export const FavoritesScreen = ({ navigation }) => {
               navigation.navigate("RestaurantDetails", { restaurant: item })
             }
           >
-            <RestaurantInfoCard restaurant={item} />
+            <FadeInView>
+              <RestaurantInfoCard restaurant={item} />
+            </FadeInView>
           </TouchableOpacity>
         );
       }}
