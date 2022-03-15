@@ -1,31 +1,48 @@
-import React, { useContext } from "react";
-import styled from "styled-components/native";
+import React, { useContext, useState, useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { List, Avatar } from "react-native-paper";
+import { TouchableOpacity } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 import { colors } from "../../../infrastructure/theme/colors";
 import { Text } from "../../../components/typography/text.component";
+import { Setting, Centered } from "../components/settings.styles";
 
-const { Section, Item, Icon } = List;
-
-const Setting = styled(Item)`
-  padding: ${(props) => props.theme.space[2]};
-`;
-
-const Centered = styled.View`
-  align-items: center;
-  margin: ${(props) => props.theme.space[2]};
-`;
+const { Section, Icon } = List;
 
 export const SettingsScreen = ({ navigation }) => {
+  const [userPhoto, setUserPhoto] = useState(null);
   const { onLogOut, user } = useContext(AuthenticationContext);
+
+  const getProfilePicture = async () => {
+    try {
+      const photo = await AsyncStorage.getItem(`${user.uid}-photo`);
+      setUserPhoto(photo);
+    } catch (e) {
+      console.log(`Error getting photo: ${e}`);
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      getProfilePicture();
+    }, [])
+  );
+
   return (
     <Section>
       <Centered>
-        <Avatar.Icon
-          size={180}
-          icon="human"
-          backgroundColor={colors.brand.primary}
-        />
+        <TouchableOpacity onPress={() => navigation.navigate("Camera")}>
+          {!userPhoto ? (
+            <Avatar.Icon
+              size={180}
+              icon="human"
+              backgroundColor={colors.brand.primary}
+            />
+          ) : (
+            <Avatar.Image size={180} source={{ uri: userPhoto }} />
+          )}
+        </TouchableOpacity>
         <Text variant="label">{user.email}</Text>
       </Centered>
       <Setting
