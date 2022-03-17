@@ -14,19 +14,15 @@ export const SettingsScreen = ({ navigation }) => {
   const [userPhoto, setUserPhoto] = useState(null);
   const { onLogOut, user } = useContext(AuthenticationContext);
 
-  const getProfilePicture = async () => {
-    try {
-      const photo = await AsyncStorage.getItem(`${user.uid}-photo`);
-      setUserPhoto(photo);
-    } catch (e) {
-      console.log(`Error getting photo: ${e}`);
-    }
-  };
-
   useFocusEffect(
-    useCallback(() => {
-      getProfilePicture();
-    }, [])
+    useCallback(async () => {
+      try {
+        const photo = await AsyncStorage.getItem(`${user.uid}-photo`);
+        setUserPhoto(photo);
+      } catch (e) {
+        console.log(`Error getting photo: ${e}`);
+      }
+    }, [user])
   );
 
   return (
